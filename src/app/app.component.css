@@ -1,0 +1,20 @@
+.avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #e0e0e0; /* Set your preferred background color */
+    border-radius: 50%;
+  }
+  
+  .avatar-icon {
+    font-size: 20px; /* Set your preferred icon size */
+    color: #333; /* Set your preferred icon color */
+  }
+
+  .example-spacer {
+    flex: 1 1 auto; 
+  }
+  
+  

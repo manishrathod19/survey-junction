@@ -1,0 +1,97 @@
+<div class="grid justify-center items-center p-5 m-20 border-2">
+  <form class="grid justify-center items-center gap-6">
+    <div class="border-2 border-t-[#673ab7] border-t-8 p-5">
+      <mat-form-field class="w-full">
+        <mat-label>Form Heading</mat-label>
+        <input matInput value="" />
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Form description</mat-label>
+        <textarea matInput></textarea>
+      </mat-form-field>
+    </div>
+
+    <div *ngFor="let formGroup of formGroups; index as i" class="border-2 p-5">
+      <div>
+        <mat-form-field class="w-full">
+          <mat-label>Question {{ i + 1 }}</mat-label>
+          <input matInput value="" />
+        </mat-form-field>
+      </div>
+      <div [ngSwitch]="formGroup.type">
+        <div *ngSwitchCase="'text'">
+          <mat-form-field class="w-full">
+            <mat-label>Answer</mat-label>
+            <input matInput disabled="true" class="cursor-not-allowed" />
+          </mat-form-field>
+        </div>
+        <div *ngSwitchCase="'multipleChoice'"></div>
+        <div *ngSwitchCase="'checkbox'"></div>
+        <div *ngSwitchCase="'voice'"></div>
+        <div *ngSwitchCase="'starRating'"></div>
+        <div *ngSwitchCase="'location'"></div>
+      </div>
+    </div>
+
+    <mat-form-field>
+      <mat-label>+ Add Question</mat-label>
+      <mat-select
+        #mySelect
+        (selectionChange)="addQuestion(mySelect)"
+        [(ngModel)]="questionSelection"
+        [ngModelOptions]="{ standalone: true }"
+      >
+        <mat-option
+          *ngFor="let questionType of questionTypes"
+          [value]="questionType.value"
+        >
+          {{ questionType.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="grow-1">
+      Create form
+    </button>
+  </form>
+  <!-- <button
+    class="start-button"
+    *ngIf="!isRecording && !blobUrl"
+    (click)="startRecording()"
+  >
+    Start Recording
+  </button>
+
+  <button
+    class="stop-button"
+    *ngIf="isRecording && !blobUrl"
+    (click)="stopRecording()"
+  >
+    Stop Recording
+  </button>
+
+  <button
+    class="cancel-button"
+    *ngIf="!isRecording && blobUrl"
+    (click)="clearRecordedData()"
+  >
+    Clear Recording
+  </button>
+
+  <br />
+  <button
+    class="cancel-button"
+    *ngIf="!isRecording && blobUrl"
+    (click)="download()"
+  >
+    Download Recording
+  </button>
+
+  <div *ngIf="isRecording && !blobUrl">{{ recordedTime }}</div>
+  <div>
+    <audio *ngIf="!isRecording && blobUrl" controls>
+      <source [src]="blobUrl" type="audio/webm" />
+    </audio>
+  </div>
+</div> -->
+</div>
