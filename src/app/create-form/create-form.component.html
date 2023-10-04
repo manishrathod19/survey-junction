@@ -25,7 +25,26 @@
             <input matInput disabled="true" class="cursor-not-allowed" />
           </mat-form-field>
         </div>
-        <div *ngSwitchCase="'multipleChoice'"></div>
+        <div *ngSwitchCase="'multipleChoice'">
+          <div
+            *ngFor="let option of multipleChoiceOptions; index as i"
+            class="flex"
+          >
+            <i class="material-icons">radio_button_unchecked</i>
+            <mat-form-field class="w-full">
+              <mat-label></mat-label>
+              <input matInput value="Option {{ i + 1 }}" />
+            </mat-form-field>
+          </div>
+
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="addOptionInMultipleChoice()"
+          >
+            + Add option
+          </button>
+        </div>
         <div *ngSwitchCase="'checkbox'"></div>
         <div *ngSwitchCase="'voice'"></div>
         <div *ngSwitchCase="'starRating'"></div>
