@@ -1,0 +1,16 @@
+<div class="flex gap-3">
+  <input
+    pInputText
+    [value]="downloadFileName"
+    [disabled]="downloadFileName.length > 0"
+    [required]="required"
+    class="border-2 w-full"
+  />
+
+  <p-splitButton
+    [label]="recordString"
+    icon="pi pi-microphone"
+    (onClick)="startAudioRecording()"
+    [model]="items"
+  ></p-splitButton>
+</div>

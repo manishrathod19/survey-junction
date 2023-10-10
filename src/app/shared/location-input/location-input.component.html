@@ -1,0 +1,15 @@
+<div class="flex gap-3">
+  <input
+    pInputText
+    [value]="inputLocation"
+    [disabled]="inputLocation"
+    [required]="required"
+    class="border-2 w-full"
+  />
+
+  <p-splitButton
+    icon="pi pi-map-marker"
+    (onClick)="getCurrentLocation()"
+    [model]="items"
+  ></p-splitButton>
+</div>

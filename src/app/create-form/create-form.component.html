@@ -1,116 +1,214 @@
-<div class="grid justify-center items-center p-5 m-20 border-2">
-  <form class="grid justify-center items-center gap-6">
-    <div class="border-2 border-t-[#673ab7] border-t-8 p-5">
-      <mat-form-field class="w-full">
-        <mat-label>Form Heading</mat-label>
-        <input matInput value="" />
-      </mat-form-field>
-      <mat-form-field class="w-full">
-        <mat-label>Form description</mat-label>
-        <textarea matInput></textarea>
-      </mat-form-field>
-    </div>
-
-    <div *ngFor="let formGroup of formGroups; index as i" class="border-2 p-5">
-      <div>
+<div
+  class="justify-center items-center p-5 my-4 mx-10 lg:my-8 lg:mx-8 parent-container shadow-4"
+  style="display: grid"
+>
+  <form #surveyForm="ngForm">
+    <div class="justify-center items-center gap-6" style="display: grid">
+      <!-- Form details -->
+      <div
+        class="gap-6 border-1 border-t-[#673ab7] border-t-8 p-5 w-[72vw]"
+        style="display: grid"
+      >
         <mat-form-field class="w-full">
-          <mat-label>Question {{ i + 1 }}</mat-label>
-          <input matInput value="" />
+          <mat-label>Form Heading</mat-label>
+          <input
+            matInput
+            [(ngModel)]="formData.heading"
+            name="heading"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field class="w-full">
+          <mat-label>Form Description</mat-label>
+          <input
+            matInput
+            [(ngModel)]="formData.description"
+            name="description"
+          />
         </mat-form-field>
       </div>
-      <div [ngSwitch]="formGroup.type">
-        <div *ngSwitchCase="'text'">
+
+      <!-- Questions -->
+      <div
+        *ngFor="let question of formData.questions; index as qIndex"
+        class="gap-4 border-2 p-5"
+        style="display: grid"
+      >
+        <button
+          mat-raised-button
+          color="primary"
+          class="justify-self-end rounded-lg"
+          (click)="removeQuestion(qIndex)"
+        >
+          <mat-icon>delete</mat-icon>
+          Remove Question
+        </button>
+        <div>
           <mat-form-field class="w-full">
-            <mat-label>Answer</mat-label>
-            <input matInput disabled="true" class="cursor-not-allowed" />
+            <mat-label>Question {{ qIndex + 1 }}</mat-label>
+            <input
+              matInput
+              [(ngModel)]="question.value"
+              name="question {{ qIndex }}"
+              required
+            />
           </mat-form-field>
         </div>
-        <div *ngSwitchCase="'multipleChoice'">
-          <div
-            *ngFor="let option of multipleChoiceOptions; index as i"
-            class="flex"
-          >
-            <i class="material-icons">radio_button_unchecked</i>
+        <div [ngSwitch]="question.type">
+          <div *ngSwitchCase="'text'">
             <mat-form-field class="w-full">
-              <mat-label></mat-label>
-              <input matInput value="Option {{ i + 1 }}" />
+              <mat-label>Answer</mat-label>
+              <input matInput disabled="true" class="cursor-not-allowed" />
             </mat-form-field>
           </div>
+          <div *ngSwitchCase="'multipleChoice'">
+            <div
+              *ngFor="let option of question?.options; index as oIndex"
+              class="flex gap-5"
+            >
+              <mat-icon class="opacity-20">radio_button_unchecked</mat-icon>
+              <mat-form-field class="w-full">
+                <mat-label>Option {{ oIndex + 1 }}</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="option.value"
+                  name="option {{ oIndex + 1 }}"
+                  [required]="oIndex === 0"
+                />
+              </mat-form-field>
+              <mat-icon
+                class="cursor-pointer opacity-80"
+                (click)="removeMCQOption(qIndex, oIndex)"
+                >delete</mat-icon
+              >
+            </div>
 
+            <button
+              mat-raised-button
+              (click)="addOptionInMultipleChoice(qIndex)"
+            >
+              + Add option
+            </button>
+          </div>
+          <div *ngSwitchCase="'checkBox'">
+            <div
+              *ngFor="let option of question?.options; index as oIndex"
+              class="flex"
+            >
+              <mat-icon class="opacity-20"> check_box_outline_blank </mat-icon>
+              <mat-form-field class="w-full">
+                <mat-label>Option {{ oIndex + 1 }}</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="option.value"
+                  name="option {{ oIndex + 1 }}"
+                  [required]="oIndex === 0"
+                />
+              </mat-form-field>
+              <mat-icon
+                class="cursor-pointer opacity-80"
+                (click)="removeMCQOption(qIndex, oIndex)"
+                >delete</mat-icon
+              >
+            </div>
+
+            <button
+              mat-raised-button
+              (click)="addOptionInMultipleChoice(qIndex)"
+            >
+              + Add option
+            </button>
+          </div>
+          <div *ngSwitchCase="'voice'">
+            <mat-form-field class="w-full">
+              <mat-label
+                >Voice answer
+                <mat-icon class="opacity-50">mic</mat-icon></mat-label
+              >
+              <input matInput disabled="true" class="cursor-not-allowed" />
+            </mat-form-field>
+          </div>
+          <div *ngSwitchCase="'starRating'" class="flex">
+            <mat-icon class="opacity-20">star</mat-icon>
+            <mat-icon class="opacity-20">star</mat-icon>
+            <mat-icon class="opacity-20">star</mat-icon>
+            <mat-icon class="opacity-20">star</mat-icon>
+            <mat-icon class="opacity-20">star</mat-icon>
+          </div>
+          <div *ngSwitchCase="'location'">
+            <mat-form-field class="w-full">
+              <mat-label
+                >Location answer
+                <mat-icon class="opacity-50">location_on</mat-icon></mat-label
+              >
+              <input matInput disabled="true" class="cursor-not-allowed" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="flex align-content-center gap-2">
+          <p-inputSwitch
+            [(ngModel)]="question.required"
+            name="required {{ qIndex }}"
+            class=""
+          ></p-inputSwitch>
+          <span class="text-base">Required</span>
+        </div>
+      </div>
+
+      <!-- Add question dropdown -->
+      <p-dropdown
+        [options]="questionTypes"
+        #selectQuestionType
+        (onChange)="addQuestion(selectQuestionType, $event)"
+        optionLabel="name"
+        placeholder="Add Question"
+        [(ngModel)]="selectedQuestion"
+        name="selectedQuestion"
+      ></p-dropdown>
+      <button
+        mat-raised-button
+        color="primary"
+        class="grow-1"
+        [disabled]="surveyForm.form.invalid || formData.questions.length <= 0"
+        (click)="showDialog()"
+      >
+        Send
+      </button>
+
+      <p-dialog
+        header="Send and collect response"
+        [(visible)]="visible"
+        [modal]="true"
+        [style]="{ width: '50vw' }"
+        [draggable]="false"
+        [resizable]="false"
+        [dismissableMask]="true"
+        class="rounded-none"
+      >
+        <mat-form-field class="w-full">
+          <mat-label>Link</mat-label>
+          <input matInput [value]="responsePageLink" disabled="true" />
+        </mat-form-field>
+        <div class="flex justify-content-between">
           <button
             mat-raised-button
-            color="accent"
-            (click)="addOptionInMultipleChoice()"
+            color="primary"
+            class="grow-1"
+            (click)="copyLink()"
           >
-            + Add option
+            <mat-icon>link</mat-icon>Copy Link
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            class="grow-1"
+            (click)="navigateToResponsePage()"
+          >
+            <mat-icon>open_in_new</mat-icon>Preview
           </button>
         </div>
-        <div *ngSwitchCase="'checkbox'"></div>
-        <div *ngSwitchCase="'voice'"></div>
-        <div *ngSwitchCase="'starRating'"></div>
-        <div *ngSwitchCase="'location'"></div>
-      </div>
+      </p-dialog>
     </div>
-
-    <mat-form-field>
-      <mat-label>+ Add Question</mat-label>
-      <mat-select
-        #mySelect
-        (selectionChange)="addQuestion(mySelect)"
-        [(ngModel)]="questionSelection"
-        [ngModelOptions]="{ standalone: true }"
-      >
-        <mat-option
-          *ngFor="let questionType of questionTypes"
-          [value]="questionType.value"
-        >
-          {{ questionType.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <button mat-raised-button color="primary" class="grow-1">
-      Create form
-    </button>
   </form>
-  <!-- <button
-    class="start-button"
-    *ngIf="!isRecording && !blobUrl"
-    (click)="startRecording()"
-  >
-    Start Recording
-  </button>
-
-  <button
-    class="stop-button"
-    *ngIf="isRecording && !blobUrl"
-    (click)="stopRecording()"
-  >
-    Stop Recording
-  </button>
-
-  <button
-    class="cancel-button"
-    *ngIf="!isRecording && blobUrl"
-    (click)="clearRecordedData()"
-  >
-    Clear Recording
-  </button>
-
-  <br />
-  <button
-    class="cancel-button"
-    *ngIf="!isRecording && blobUrl"
-    (click)="download()"
-  >
-    Download Recording
-  </button>
-
-  <div *ngIf="isRecording && !blobUrl">{{ recordedTime }}</div>
-  <div>
-    <audio *ngIf="!isRecording && blobUrl" controls>
-      <source [src]="blobUrl" type="audio/webm" />
-    </audio>
-  </div>
-</div> -->
+  <p-toast></p-toast>
 </div>
