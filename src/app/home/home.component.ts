@@ -7,10 +7,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
+  showFormModal = false;
   constructor(private router: Router) {}
 
-  createForm() {
-    console.log('');
+  showDialog() {
+    this.showFormModal = true;
+  }
+
+  createManually() {
     this.router.navigate(['/createForm']);
   }
 }

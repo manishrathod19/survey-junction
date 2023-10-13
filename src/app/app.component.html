@@ -6,26 +6,7 @@
   <span class="example-spacer"></span>
   
 </mat-toolbar> -->
-
-<p-menubar [model]="items" class="navbar">
-  <ng-template pTemplate="start" class="flex">
-    <img
-      src="../assets/logo.png"
-      height="40"
-      style="margin: 0.5rem"
-      width="80"
-    />
-  </ng-template>
-  <ng-template pTemplate="end">
-    <p-avatar
-      label="M"
-      size="large"
-      [style]="{
-        'background-color': '#c6f1e7',
-        color: '#00000',
-        margin: '0.5rem'
-      }"
-    ></p-avatar>
-  </ng-template>
-</p-menubar>
-<router-outlet></router-outlet>
+<div class="h-screen">
+  <app-nav-bar></app-nav-bar>
+  <router-outlet></router-outlet>
+</div>

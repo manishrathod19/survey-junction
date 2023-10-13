@@ -48,6 +48,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { RatingModule } from 'primeng/rating';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { CardModule } from 'primeng/card';
+import { NavBarComponent } from './shared/nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     ResponsePageComponent,
     VoiceInputComponent,
     LocationInputComponent,
+    NavBarComponent,
   ],
   imports: [
     BrowserModule,
@@ -91,6 +94,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     RatingModule,
     CheckboxModule,
     InputSwitchModule,
+    CardModule,
   ],
   providers: [AudioRecordingService, MessageService, SharedService],
   bootstrap: [AppComponent],
