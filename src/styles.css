@@ -22,3 +22,7 @@ input {
     display: grid;
 }
 
+.cursor-not-allowed {
+    cursor: not-allowed;
+}
+
