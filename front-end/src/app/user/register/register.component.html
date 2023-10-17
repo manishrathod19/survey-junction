@@ -1,0 +1,126 @@
+<div class="h-screen align-to-center">
+  <form #registerForm="ngForm">
+    <div
+      class="m-5 m-grid gap-3 border-300 border-1 border-round-xl p-5 surface-100 shadow-2 align-items-center user-card"
+    >
+      <div class="text-2xl">Register</div>
+      <p-button
+        class="mt-4"
+        [style]="{
+          width: '100%',
+          backgroundColor: 'white',
+          color: 'black',
+          height: '50%',
+          borderColor: 'white',
+          flexGrow: '1'
+        }"
+        [raised]="true"
+        size="small"
+        ><div class="align-to-center gap-2">
+          <img
+            src="../../../assets/google_icon.svg"
+            alt="google-icon"
+            width="30"
+          />
+          <span>Sign In with Google</span>
+        </div></p-button
+      >
+      <div class="align-to-center">OR</div>
+      <div class="flex flex-column gap-2">
+        <label htmlFor="name">Name</label>
+        <input
+          pInputText
+          id="name"
+          name="name"
+          [(ngModel)]="userDate.name"
+          required
+          pattern="[a-zA-Z ]*"
+          aria-describedby="nameAria"
+          #name="ngModel"
+        />
+        <small
+          id="nameAria"
+          class="text-red-500"
+          *ngIf="name.errors?.['pattern']"
+          >Special characters are not allowed</small
+        >
+      </div>
+      <div class="flex flex-column gap-2">
+        <label htmlFor="email">Email Id</label>
+        <input
+          type="email"
+          email
+          pInputText
+          id="email"
+          name="email"
+          [(ngModel)]="userDate.email"
+          required
+          aria-describedby="emailAria"
+          #email="ngModel"
+        />
+        <small
+          id="emailAria"
+          class="text-red-500"
+          *ngIf="email.errors?.['email']"
+          >Please enter valid email id</small
+        >
+      </div>
+      <div class="flex flex-column gap-2">
+        <label htmlFor="password">Password</label>
+        <p-password
+          [(ngModel)]="userDate.password"
+          [toggleMask]="true"
+          id="password"
+          name="password"
+          [style]="{ width: '100%' }"
+          [inputStyle]="{ width: '100%' }"
+          [feedback]="false"
+        ></p-password>
+      </div>
+      <div class="flex flex-column gap-2">
+        <label htmlFor="confirmPassword">Confirm Password</label>
+        <input
+          type="password"
+          pInputText
+          id="confirmPassword"
+          name="confirmPassword"
+          [(ngModel)]="userDate.confirmPassword"
+          required
+        />
+      </div>
+      <p-button
+        (onClick)="register()"
+        label="Create Account"
+        class="align-to-center mt-4"
+        [disabled]="registerForm.form.invalid"
+        [style]="{ width: '100%' }"
+        [raised]="true"
+      ></p-button>
+      <div>Already have an account? <a href="/login">Login</a></div>
+      <p-message
+        class="align-to-center"
+        severity="warn"
+        [text]="errorMessage"
+        *ngIf="errorMessage"
+      ></p-message>
+    </div>
+  </form>
+
+  <p-dialog
+    [(visible)]="showSuccessDialog"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [closable]="false"
+    [style]="{ width: '50%' }"
+  >
+    <div class="grid-align-to-center gap-3">
+      <img src="../../../assets/celebrate.svg" alt="success" width="100" />
+      <!-- <div>{{ successMessage }}</div> -->
+      <div>
+        Congrats!! You are successfully registered. Click here to
+        <a href="/login">login</a>
+      </div>
+    </div>
+  </p-dialog>
+</div>

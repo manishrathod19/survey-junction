@@ -2,16 +2,17 @@
 
 # Compiled output
 /dist
-/tmp
+/tmp    
 /out-tsc
 /bazel-out
 
 # Node
-/node_modules
+node_modules
 npm-debug.log
 yarn-error.log
 .angular
-package-lock.json
+.env
+dist
 
 # IDEs and editors
 .idea/
