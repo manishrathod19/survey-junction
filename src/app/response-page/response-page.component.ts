@@ -8,6 +8,10 @@ import { CommunicationService } from '@src/services/communication.service';
   styleUrls: ['./response-page.component.css'],
 })
 export class ResponsePageComponent implements OnInit {
+  questionNumber = 0;
+  firstStep = 0;
+  steps: number = 0;
+  totalQuestions = 0;
   formId: any;
   formData: any;
   response: any;
@@ -27,6 +31,7 @@ export class ResponsePageComponent implements OnInit {
         this.response = this.formData.questions.map((question: any) => {
           return { question: question.value, qId: question.name };
         });
+        this.totalQuestions = this.formData.questions.length;
       },
       error(err) {
         console.log('err', err);
@@ -56,5 +61,15 @@ export class ResponsePageComponent implements OnInit {
         console.log('submit response error ', err);
       },
     });
+  }
+
+  onNext() {
+    this.questionNumber = this.questionNumber + 1;
+    if (this.questionNumber == 1) {
+      this.firstStep = 100 / this.totalQuestions;
+      this.steps = this.firstStep;
+    } else {
+      this.steps = this.steps + this.firstStep;
+    }
   }
 }

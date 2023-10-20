@@ -1,3 +1,6 @@
+<div class="bg-spinner" *ngIf="this.shared.isLoading">
+  <p-progressSpinner strokeWidth="1" class="center-spinner"></p-progressSpinner>
+</div>
 <div class="h-screen">
   <router-outlet></router-outlet>
 </div>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SharedService } from '@src/services/shared.service';
 
 @Component({
   selector: 'app-root',
@@ -6,9 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  items = [
-    {
-      label: 'Survey Junction',
-    },
-  ];
+  constructor(public shared: SharedService) {}
 }

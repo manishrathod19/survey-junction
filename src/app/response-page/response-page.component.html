@@ -1,10 +1,10 @@
-<div class="m-grid m-5 p-5 justify-content-center">
+<p-slider [(ngModel)]="steps"></p-slider>
+<div
+  class="m-grid m-5 p-5 justify-content-center align-content-center h-screen"
+>
   <form #responseForm="ngForm">
     <!-- Form heading and description -->
-    <div
-      class="m-grid justify-content-center gap-4 align-content-center border-300 border-1 border-round-xl p-5 surface-100 shadow-2"
-      style="width: 60vw"
-    >
+    <div class="m-grid gap-4" style="width: 60vw" *ngIf="questionNumber === 0">
       <span class="text-xl">
         {{ formData?.heading }}
       </span>
@@ -17,88 +17,103 @@
     <!-- Questions -->
     <div
       *ngFor="let question of formData?.questions; index as qIndex"
-      class="mt-4 text-base m-grid gap-2 mb-2 border-300 border-1 border-round-xl p-5 surface-100 shadow-2"
+      class="mb-3"
     >
-      <div class="m-grid gap-2">
-        <div class="font-bold">{{ qIndex + 1 }}. {{ question.value }}</div>
-        <div>
-          <i
-            class="pi pi-info-circle"
-            *ngIf="question?.type === 'voice' || question?.type === 'location'"
-          ></i
-          ><span *ngIf="question?.type === 'voice'" class="ml-2"
-            >You can record your voice to answer</span
-          >
-          <span *ngIf="question?.type === 'location'" class="ml-2">
-            You can share your location directly by using GPS</span
-          >
-        </div>
-      </div>
-      <div [ngSwitch]="question?.type">
-        <div *ngSwitchCase="'text'">
-          <input
-            pInputText
-            placeholder="Enter your answer"
-            class="w-full"
-            name="question.name"
-            [required]="question?.required"
-            [(ngModel)]="response[qIndex].answer"
-          />
-        </div>
-        <div *ngSwitchCase="'multipleChoice'" class="m-grid gap-3">
-          <div *ngFor="let option of question?.options; index as oIndex">
-            <p-radioButton
-              id="mcqOption"
-              name="mcqOption {{ oIndex }}"
-              [value]="option"
-              [(ngModel)]="response[qIndex].answer"
-              [required]="question?.required"
-            ></p-radioButton>
-            <label for="mcqOption" class="ml-2">{{ option.value }}</label>
+      <div *ngIf="questionNumber === qIndex + 1">
+        <div class="m-grid gap-2">
+          <div class="font-bold">{{ qIndex + 1 }}. {{ question.value }}</div>
+          <div>
+            <i
+              class="pi pi-info-circle"
+              *ngIf="
+                question?.type === 'voice' || question?.type === 'location'
+              "
+            ></i
+            ><span *ngIf="question?.type === 'voice'" class="ml-2"
+              >You can record your voice to answer</span
+            >
+            <span *ngIf="question?.type === 'location'" class="ml-2">
+              You can share your location directly by using GPS</span
+            >
           </div>
         </div>
-        <div *ngSwitchCase="'checkBox'" class="m-grid gap-3">
-          <div
-            *ngFor="let option of question?.options; index as oIndex"
-            class="flex gap-2"
-          >
-            <p-checkbox
-              name="checkBoxOption {{ oIndex }}"
-              [value]="option"
-              [(ngModel)]="response[qIndex].answer"
-              id="checkBoxOption"
+        <div [ngSwitch]="question?.type">
+          <div *ngSwitchCase="'text'">
+            <input
+              pInputText
+              placeholder="Enter your answer"
+              class="w-full"
+              name="question.name"
               [required]="question?.required"
-            ></p-checkbox>
+              [(ngModel)]="response[qIndex].answer"
+            />
+          </div>
+          <div *ngSwitchCase="'multipleChoice'" class="m-grid gap-3">
+            <div *ngFor="let option of question?.options; index as oIndex">
+              <p-radioButton
+                id="mcqOption"
+                name="mcqOption {{ oIndex }}"
+                [value]="option"
+                [(ngModel)]="response[qIndex].answer"
+                [required]="question?.required"
+              ></p-radioButton>
+              <label for="mcqOption" class="ml-2">{{ option.value }}</label>
+            </div>
+          </div>
+          <div *ngSwitchCase="'checkBox'" class="m-grid gap-3">
+            <div
+              *ngFor="let option of question?.options; index as oIndex"
+              class="flex gap-2"
+            >
+              <p-checkbox
+                name="checkBoxOption {{ oIndex }}"
+                [value]="option"
+                [(ngModel)]="response[qIndex].answer"
+                id="checkBoxOption"
+                [required]="question?.required"
+              ></p-checkbox>
 
-            <label for="checkBoxOption">{{ option.value }}</label>
+              <label for="checkBoxOption">{{ option.value }}</label>
+            </div>
           </div>
-        </div>
-        <div *ngSwitchCase="'starRating'">
-          <p-rating
-            name="starRating {{ qIndex }}"
-            [(ngModel)]="response[qIndex].answer"
-            [cancel]="false"
-            [required]="question?.required"
-          ></p-rating>
-        </div>
-        <div *ngSwitchCase="'voice'">
-          <app-voice-input
-            [required]="question?.required"
-            (result)="getVoiceOutput($event, qIndex)"
-          ></app-voice-input>
-        </div>
-        <div *ngSwitchCase="'location'">
-          <app-location-input
-            [inputLocation]="
-              response[qIndex].answer ? response[qIndex].answer : ''
-            "
-            [required]="question?.required"
-            (location)="getLocation($event, qIndex)"
-          ></app-location-input>
+          <div *ngSwitchCase="'starRating'">
+            <p-rating
+              name="starRating {{ qIndex }}"
+              [(ngModel)]="response[qIndex].answer"
+              [cancel]="false"
+              [required]="question?.required"
+            ></p-rating>
+          </div>
+          <div *ngSwitchCase="'voice'">
+            <app-voice-input
+              [required]="question?.required"
+              (result)="getVoiceOutput($event, qIndex)"
+            ></app-voice-input>
+          </div>
+          <div *ngSwitchCase="'location'">
+            <app-location-input
+              [inputLocation]="
+                response[qIndex].answer ? response[qIndex].answer : ''
+              "
+              [required]="question?.required"
+              (location)="getLocation($event, qIndex)"
+            ></app-location-input>
+          </div>
         </div>
       </div>
     </div>
     <p-button
+      label="Start"
+      (click)="onNext()"
+      *ngIf="questionNumber == 0"
+    ></p-button>
+    <p-button
+      label="Next"
+      (click)="onNext()"
+      *ngIf="questionNumber > 0 && questionNumber < formData?.questions.length"
+    ></p-button>
+    <p-button
+      *ngIf="questionNumber == formData?.questions.length"
       (onClick)="onSubmit()"
       label="Submit response"
       class="flex align-content-center justify-content-center mt-4 shadow-4"

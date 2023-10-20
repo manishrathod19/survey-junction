@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 export class SharedService {
   // Form object which will be initialized on creating a form
   form = {};
+
+  isLoading = false;
   constructor() {}
 
   // Method to copy the string value to the user's device clipboard

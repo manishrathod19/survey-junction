@@ -35,7 +35,7 @@ import { NavBarComponent } from './shared/nav-bar/nav-bar.component';
 import { RegisterComponent } from './user/register/register.component';
 import { LoginComponent } from './user/login/login.component';
 import { CommunicationService } from '@src/services/communication.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 // PrimeNg
 import { MenubarModule } from 'primeng/menubar';
@@ -56,6 +56,9 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { CardModule } from 'primeng/card';
 import { PasswordModule } from 'primeng/password';
 import { MessageModule } from 'primeng/message';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { Interceptor } from '@src/services/interceptor.service';
+import { SliderModule } from 'primeng/slider';
 
 @NgModule({
   declarations: [
@@ -106,12 +109,19 @@ import { MessageModule } from 'primeng/message';
     HttpClientModule,
     PasswordModule,
     MessageModule,
+    ProgressSpinnerModule,
+    SliderModule,
   ],
   providers: [
     AudioRecordingService,
     MessageService,
     SharedService,
     CommunicationService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: Interceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
